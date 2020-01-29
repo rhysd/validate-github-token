@@ -1,0 +1,17 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  tests:
+    name: Unit test and lint
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - run: npm ci
+      - name: Run unit tests
+        env:
+          GITHUB_TOKEN: "${{ secrets.ACCESS_TOKEN_FOR_TEST }}"
+          GITHUB_ACTION_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        run: npm test
+      - run: npm run lint

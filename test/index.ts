@@ -113,4 +113,13 @@ describe('validateGitHubToken()', function() {
             }
         });
     }
+
+    const actionToken = process.env.GITHUB_ACITON_TOKEN ?? '';
+    if (actionToken !== '') {
+        it('works with GitHub Action access token', async function() {
+            const v = await validateGitHubToken(actionToken);
+            assert.ok(v.rateLimit.remaining <= v.rateLimit.limit, JSON.stringify(v.rateLimit));
+            assert.ok(v.scopes.length > 0, JSON.stringify(v.scopes));
+        });
+    }
 });
