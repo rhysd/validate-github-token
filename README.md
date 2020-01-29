@@ -1,5 +1,7 @@
 GitHub API Token Validation for Node.js
 =======================================
+[![CI workflow][ci-badge]][ci]
+[![npm package][npm-badge]][npm]
 
 [validate-github-token][repo] is a [npm package][npm] to validate [GitHub API][dev-gh] OAuth token.
 
@@ -134,3 +136,6 @@ Distributed under [the MIT license](./LICENSE.txt).
 [rate-limit]: https://developer.github.com/v3/rate_limit/
 [me]: https://github.com/rhysd
 [gh-auth]: https://developer.github.com/v3/#authentication
+[ci-badge]: ![CI](https://github.com/rhysd/validate-github-token/workflows/CI/badge.svg?branch=master&event=push)
+[ci]: https://github.com/rhysd/validate-github-token/actions?query=workflow%3ACI+branch%3Amaster
+[npm-badge]: https://badge.fury.io/js/validate-github-token.svg
