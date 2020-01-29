@@ -18,8 +18,8 @@ and returns the following information as the result of validation:
 
 See [GitHub official authentication document][gh-auth] for more details.
 
-This package was created to make a human-friendly error before actually calling GitHub APIs mainly
-for [GitHub Action][gh-action].
+This package aims to make a human-friendly error before actually calling GitHub APIs. It is useful
+for validating inputs of [GitHub Action][gh-action] if you're making a [JavaScript Action][js-action].
 
 
 
@@ -152,3 +152,4 @@ Distributed under [the MIT license](./LICENSE.txt).
 [ci]: https://github.com/rhysd/validate-github-token/actions?query=workflow%3ACI+branch%3Amaster
 [npm-badge]: https://badge.fury.io/js/validate-github-token.svg
 [gh-action]: https://github.com/features/actions
+[js-action]: https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-a-javascript-action
