@@ -1,0 +1,25 @@
+{
+  "name": "validate-github-token",
+  "version": "0.0.0",
+  "description": "Validation for GitHub API token",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rhysd/validate-github-token.git"
+  },
+  "keywords": [
+    "validation",
+    "github",
+    "api",
+    "auth"
+  ],
+  "author": "rhysd <https://rhysd.github.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rhysd/validate-github-token/issues"
+  },
+  "homepage": "https://github.com/rhysd/validate-github-token#readme"
+}
