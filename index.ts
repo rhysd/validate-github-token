@@ -8,6 +8,7 @@ interface ScopeValidation {
 }
 
 export interface ValidateOptions {
+    userName?: string;
     scope?: ScopeValidation;
     agent?: HttpsAgent;
     endpointUrl?: string;
@@ -31,10 +32,12 @@ export class ValidationError extends Error {
     }
 }
 
-function endpointUrl(userName: string, opts: ValidateOptions): string {
+function endpointUrl(opts: ValidateOptions): string {
     try {
         const u = new URL(opts.endpointUrl || 'https://api.github.com');
-        u.pathname = `/users/${userName}`;
+        if (opts.userName) {
+            u.pathname = `/users/${opts.userName}`;
+        }
         return u.href;
     } catch (err) {
         throw new Error(`Invalid URL for API endpoint: ${err.message}`);
@@ -59,8 +62,8 @@ function rateLimit(headers: Headers): RateLimit {
     const xRemaining = headers.get('X-RateLimit-Remaining');
     const xReset = headers.get('X-RateLimit-Reset');
 
-    if (!xLimit || !xRemaining || !xReset) {
-        throw new Error(`Response headers does not include rate limit information: ${JSON.stringify(headers.raw())}`);
+    if (xLimit === null || xRemaining === null || xReset === null) {
+        throw new Error(`Response headers don't include rate limit information: ${JSON.stringify(headers.raw())}`);
     }
 
     return {
@@ -72,8 +75,8 @@ function rateLimit(headers: Headers): RateLimit {
 
 function validateScopes(headers: Headers, validation: ScopeValidation | undefined): string[] {
     const header = headers.get('X-OAuth-Scopes');
-    if (!header) {
-        throw new Error(`Response headers does not include X-OAuth-Scopes: ${JSON.stringify(headers.raw())}`);
+    if (header === null) {
+        throw new Error(`Response headers don't include X-OAuth-Scopes: ${JSON.stringify(headers.raw())}`);
     }
     const scopes = header.split(',').map(s => s.trim());
 
@@ -97,9 +100,9 @@ function validateScopes(headers: Headers, validation: ScopeValidation | undefine
     return scopes;
 }
 
-export async function validateGitHubToken(userName: string, token: string, opts?: ValidateOptions): Promise<Validated> {
+export async function validateGitHubToken(token: string, opts?: ValidateOptions): Promise<Validated> {
     const o = opts ?? {};
-    const url = endpointUrl(userName, o);
+    const url = endpointUrl(o);
     const res = await request(url, token, o);
 
     if (!res.ok) {

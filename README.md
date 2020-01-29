@@ -1,16 +1,30 @@
 GitHub API Token Validation for Node.js
 =======================================
 
-[validate-github-token][repo] is a npm package to validate [GitHub API][dev-gh] OAuth token.
+[validate-github-token][repo] is a [npm package][npm] to validate [GitHub API][dev-gh] OAuth token.
 
-JavaScript Example:
+This package can validate the given token
 
-```js
+- is actually authorized by API endpoint
+- has expected API scopes
+- doesn't have unexpected API scopes
+
+and returns the following information as the result of validation:
+
+- API scopes which the given token has
+- Rate limit
+
+See [GitHub official authentication document][gh-auth] for more details.
+
+
+
+## JavaScript Example
+
+```javascript
 const { validateGitHubToken, ValidationError } = require('validate-github-token');
 
 try {
     const validated = await validateGitHubToken(
-        'your-github-name',
         'your-secret-api-token',
         {
             scope: {
@@ -46,6 +60,8 @@ import { ValidateOptions, RateLimit, Validated } from 'validate-github-token';
 
 A TypeScript interface for configuring the validation behvior. It's keys are as follows:
 
+- `userName: string`: GitHub user name like `"rhysd"` for [@rhysd][me]. If this value is set, the endpoint will
+  check the token against the user **Optional**
 - `scope: Object`: Scope validation behavior **Optional**
   - `included: Array<string>`: Scope names which should be added to the token **Optional**
   - `excluded: Array<string>`: Scope names which should NOT be added to the token **Optional**
@@ -74,7 +90,6 @@ with the 3rd parameter. It returns the information given from API endpoint.
 
 #### Parameters
 
-- `userName: string`: GitHub user name like `"rhysd"` for [@rhysd][me] **Required**
 - `token: string`: API token to be validated **Required**
 - `options: Object`: Objects to configure validation behavior **Optional**
 
@@ -113,7 +128,9 @@ A TypeScript interface contains the all information returned from API endpoint.
 Distributed under [the MIT license](./LICENSE.txt).
 
 [repo]: https://github.com/rhysd/validate-github-token
+[npm]: https://www.npmjs.com/package/validate-github-token
 [dev-gh]: https://developer.github.com/
 [proxy]: https://www.npmjs.com/package/https-proxy-agent
 [rate-limit]: https://developer.github.com/v3/rate_limit/
 [me]: https://github.com/rhysd
+[gh-auth]: https://developer.github.com/v3/#authentication
