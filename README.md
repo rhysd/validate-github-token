@@ -18,6 +18,9 @@ and returns the following information as the result of validation:
 
 See [GitHub official authentication document][gh-auth] for more details.
 
+This package was created to make a human-friendly error before actually calling GitHub APIs mainly
+for [GitHub Action][gh-action].
+
 
 
 ## Installation
@@ -148,3 +151,4 @@ Distributed under [the MIT license](./LICENSE.txt).
 [ci-badge]: https://github.com/rhysd/validate-github-token/workflows/CI/badge.svg?branch=master&event=push
 [ci]: https://github.com/rhysd/validate-github-token/actions?query=workflow%3ACI+branch%3Amaster
 [npm-badge]: https://badge.fury.io/js/validate-github-token.svg
+[gh-action]: https://github.com/features/actions
