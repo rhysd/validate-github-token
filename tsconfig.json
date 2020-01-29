@@ -21,6 +21,7 @@
     "declaration": true
   },
   "files": [
-    "index.ts"
+    "index.ts",
+    "test/index.ts"
   ]
 }
