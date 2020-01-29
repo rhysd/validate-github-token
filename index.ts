@@ -24,6 +24,13 @@ export interface Validated {
     rateLimit: RateLimit;
 }
 
+export class ValidationError extends Error {
+    constructor(msg: string) {
+        super(msg);
+        this.name = 'ValidationError';
+    }
+}
+
 function endpointUrl(userName: string, opts: ValidateOptions): string {
     try {
         const u = new URL(opts.endpointUrl || 'https://api.github.com');
@@ -74,14 +81,14 @@ function validateScopes(headers: Headers, validation: ScopeValidation | undefine
         if (validation.included) {
             for (const scope of validation.included) {
                 if (!scopes.includes(scope)) {
-                    throw new Error(`Scope '${scope}' should be included in token scopes: ${header}`);
+                    throw new ValidationError(`Scope '${scope}' should be included in token scopes: ${header}`);
                 }
             }
         }
         if (validation.excluded) {
             for (const scope of validation.excluded) {
                 if (scopes.includes(scope)) {
-                    throw new Error(`Scope '${scope}' should not be included in token scopes: ${header}`);
+                    throw new ValidationError(`Scope '${scope}' should not be included in token scopes: ${header}`);
                 }
             }
         }
@@ -90,20 +97,17 @@ function validateScopes(headers: Headers, validation: ScopeValidation | undefine
     return scopes;
 }
 
-export default async function validateGitHubToken(
-    userName: string,
-    token: string,
-    opts?: ValidateOptions,
-): Promise<Validated> {
+export async function validateGitHubToken(userName: string, token: string, opts?: ValidateOptions): Promise<Validated> {
     const o = opts ?? {};
     const url = endpointUrl(userName, o);
     const res = await request(url, token, o);
 
     if (!res.ok) {
         const body = await res.text();
-        throw new Error(
-            `Invalid GitHub API token with HTTP repsponse ${res.status} (${res.statusText}) and body '${body}'`,
-        );
+        if (res.status === 401) {
+            throw new ValidationError(`Unauthorized GitHub API token. Response: '${body}', URL: ${url}`);
+        }
+        throw new Error(`HTTP repsponse ${res.status} (${res.statusText}) and body '${body}'`);
     }
 
     return {
