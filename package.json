@@ -16,6 +16,7 @@
     "watch": "npm-run-all -p watch:mocha watch:tsc",
     "mocha": "mocha ./test",
     "lint": "eslint '**/*.ts'",
+    "prepublishOnly": "npm-run-all -p lint test",
     "test": "npm-run-all build mocha"
   },
   "repository": {
