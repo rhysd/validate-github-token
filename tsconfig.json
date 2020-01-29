@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": [
+      "esnext"
+    ],
+    "preserveConstEnums": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "strict": true,
+    "target": "es2019",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "declaration": true
+  },
+  "files": [
+    "index.ts"
+  ]
+}

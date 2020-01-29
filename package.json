@@ -3,7 +3,14 @@
   "version": "0.0.0",
   "description": "Validation for GitHub API token",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "LICENSE.txt"
+  ],
   "scripts": {
+    "build": "tsc -p .",
+    "watch": "tsc -p . --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,5 +28,13 @@
   "bugs": {
     "url": "https://github.com/rhysd/validate-github-token/issues"
   },
-  "homepage": "https://github.com/rhysd/validate-github-token#readme"
+  "homepage": "https://github.com/rhysd/validate-github-token#readme",
+  "devDependencies": {
+    "@types/node": "^13.5.1",
+    "@types/node-fetch": "^2.5.4",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
 }
