@@ -33,7 +33,7 @@ export class ValidationError extends Error {
 }
 
 function endpointUrl(opts: ValidateOptions): string {
-    const s = opts.endpointUrl || 'https://api.github.com';
+    const s = opts.endpointUrl ?? 'https://api.github.com';
     try {
         const u = new URL(s);
         if (u.protocol !== 'http:' && u.protocol !== 'https:') {

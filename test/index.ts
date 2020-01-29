@@ -3,7 +3,7 @@ import { validateGitHubToken, ValidateOptions, ValidationError } from '../index'
 
 describe('validateGitHubToken()', function() {
     // Note: This token must have exact 'public_repo' and 'read:user' scopes
-    let validToken = process.env.GITHUB_TOKEN || '';
+    const validToken = process.env.GITHUB_TOKEN ?? '';
 
     before(function() {
         if (validToken === '') {
