@@ -33,14 +33,18 @@ export class ValidationError extends Error {
 }
 
 function endpointUrl(opts: ValidateOptions): string {
+    const s = opts.endpointUrl || 'https://api.github.com';
     try {
-        const u = new URL(opts.endpointUrl || 'https://api.github.com');
+        const u = new URL(s);
+        if (u.protocol !== 'http:' && u.protocol !== 'https:') {
+            throw new Error('Only http: or https: are valid for scheme of GitHub API endpoint');
+        }
         if (opts.userName) {
             u.pathname = `/users/${opts.userName}`;
         }
         return u.href;
     } catch (err) {
-        throw new Error(`Invalid URL for API endpoint: ${err.message}`);
+        throw new Error(`Invalid URL ${s} for API endpoint: ${err.message}`);
     }
 }
 
@@ -110,7 +114,9 @@ export async function validateGitHubToken(token: string, opts?: ValidateOptions)
         if (res.status === 401) {
             throw new ValidationError(`Unauthorized GitHub API token. Response: '${body}', URL: ${url}`);
         }
-        throw new Error(`HTTP repsponse ${res.status} (${res.statusText}) and body '${body}'`);
+        throw new Error(
+            `Unexpected HTTP request failure with repsponse ${res.status} (${res.statusText}) and body '${body}'`,
+        );
     }
 
     return {
