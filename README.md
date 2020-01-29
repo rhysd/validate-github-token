@@ -39,7 +39,7 @@ try {
         {
             scope: {
                 // Checks 'public_repo' scope is added to the token
-                included: 'public_repo'
+                included: ['public_repo']
             }
         }
     );
