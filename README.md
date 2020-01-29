@@ -75,6 +75,7 @@ A TypeScript interface for configuring the validation behvior. It's keys are as 
 - `scope: Object`: Scope validation behavior **Optional**
   - `included: Array<string>`: Scope names which should be added to the token **Optional**
   - `excluded: Array<string>`: Scope names which should NOT be added to the token **Optional**
+  - `exact: Array<string>`: Scope names should exactly match to scopes of the token **Optional**
 - `agent: https.Agent`: Node.js HTTPS agent. For example please pass [https-proxy-agent][proxy] for proxy support **Optional**
 - `endpointUrl: string`: Custom API endpoint URL. Deafult value is `"https://api.github.com"` **Optional**
 

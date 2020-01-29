@@ -30,6 +30,16 @@ describe('validateGitHubToken()', function() {
                 excluded: ['user', 'read:org'],
             },
         },
+        {
+            scope: {
+                exact: ['public_repo', 'read:user'],
+            },
+        },
+        {
+            scope: {
+                exact: ['read:user', 'public_repo'],
+            },
+        },
     ];
 
     for (const opts of normalCaseOptions) {
@@ -69,6 +79,39 @@ describe('validateGitHubToken()', function() {
             },
             error: ValidationError,
             message: /Scope '.+' should not be included in token scopes/,
+        },
+        {
+            when: 'too many scopes are added to token for exact matching',
+            token: validToken,
+            options: {
+                scope: {
+                    exact: ['public_repo'],
+                },
+            },
+            error: ValidationError,
+            message: /don't exactly match to the expected scope/,
+        },
+        {
+            when: 'too few scopes are added to token for exact matching',
+            token: validToken,
+            options: {
+                scope: {
+                    exact: ['public_repo', 'read:user', 'read:org'],
+                },
+            },
+            error: ValidationError,
+            message: /don't exactly match to the expected scope/,
+        },
+        {
+            when: 'different scopes are added to token for exact matching',
+            token: validToken,
+            options: {
+                scope: {
+                    exact: ['public_repo', 'read:org'],
+                },
+            },
+            error: ValidationError,
+            message: /don't exactly match to the expected scope/,
         },
         {
             when: 'token is not valid',

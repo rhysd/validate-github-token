@@ -5,6 +5,7 @@ import { URL } from 'url';
 interface ScopeValidation {
     included?: string[];
     excluded?: string[];
+    exact?: string[];
 }
 
 export interface ValidateOptions {
@@ -97,6 +98,16 @@ function validateScopes(headers: Headers, validation: ScopeValidation | undefine
                 if (scopes.includes(scope)) {
                     throw new ValidationError(`Scope '${scope}' should not be included in token scopes: ${header}`);
                 }
+            }
+        }
+        if (validation.exact) {
+            const want = validation.exact;
+            if (want.some(s => !scopes.includes(s)) || scopes.some(s => !want.includes(s))) {
+                const got = JSON.stringify(scopes);
+                const expected = JSON.stringify(want);
+                throw new ValidationError(
+                    `The token's scopes ${got} don't exactly match to the expected scopes ${expected}`,
+                );
             }
         }
     }
