@@ -115,10 +115,9 @@ function validateScopes(headers: Headers, validation: ScopeValidation | undefine
     return scopes;
 }
 
-export async function validateGitHubToken(token: string, opts?: ValidateOptions): Promise<Validated> {
-    const o = opts ?? {};
-    const url = endpointUrl(o);
-    const res = await request(url, token, o);
+export async function validateGitHubToken(token: string, opts: ValidateOptions = {}): Promise<Validated> {
+    const url = endpointUrl(opts);
+    const res = await request(url, token, opts);
 
     if (!res.ok) {
         const body = await res.text();
@@ -131,7 +130,7 @@ export async function validateGitHubToken(token: string, opts?: ValidateOptions)
     }
 
     return {
-        scopes: validateScopes(res.headers, o.scope),
+        scopes: validateScopes(res.headers, opts.scope),
         rateLimit: rateLimit(res.headers),
     };
 }
