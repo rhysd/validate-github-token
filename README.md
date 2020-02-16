@@ -36,26 +36,28 @@ npm install --save validate-github-token
 ```javascript
 const { validateGitHubToken, ValidationError } = require('validate-github-token');
 
-try {
-    const validated = await validateGitHubToken(
-        'your-secret-api-token',
-        {
-            scope: {
-                // Checks 'public_repo' scope is added to the token
-                included: ['public_repo']
+(async () => {
+    try {
+        const validated = await validateGitHubToken(
+            'your-secret-api-token',
+            {
+                scope: {
+                    // Checks 'public_repo' scope is added to the token
+                    included: ['public_repo']
+                }
             }
-        }
-    );
+        );
 
-    console.log('Token scopes:', validated.scopes);
-    console.log('API rate limit remaining:', validated.rateLimit.remaining);
-} catch(err) {
-    if (err instanceof ValidationError) {
-        console.error(`Validation failed!: ${err.message}`);
-    } else {
-        throw err;
+        console.log('Token scopes:', validated.scopes);
+        console.log('API rate limit remaining:', validated.rateLimit.remaining);
+    } catch(err) {
+        if (err instanceof ValidationError) {
+            console.error(`Validation failed!: ${err.message}`);
+        } else {
+            throw err;
+        }
     }
-}
+})();
 ```
 
 
@@ -64,14 +66,14 @@ try {
 
 ```typescript
 import { validateGitHubToken, ValidationError } from 'validate-github-token';
-// TypeScript only
+// Types for TypeScript
 import { ValidateOptions, RateLimit, Validated } from 'validate-github-token';
 ```
 
 
 ### `interface ValidateOptions`
 
-A TypeScript interface for configuring the validation behvior. It's keys are as follows:
+A TypeScript interface for configuring the validation behavior. It's keys are as follows:
 
 - `userName: string`: GitHub user name like `"rhysd"` for [@rhysd][me]. If this value is set, the endpoint will
   check the token against the user **Optional**
@@ -80,11 +82,11 @@ A TypeScript interface for configuring the validation behvior. It's keys are as 
   - `excluded: Array<string>`: Scope names which should NOT be added to the token **Optional**
   - `exact: Array<string>`: Scope names should exactly match to scopes of the token **Optional**
 - `agent: https.Agent`: Node.js HTTPS agent. For example please pass [https-proxy-agent][proxy] for proxy support **Optional**
-- `endpointUrl: string`: Custom API endpoint URL. Deafult value is `"https://api.github.com"` **Optional**
+- `endpointUrl: string`: Custom API endpoint URL. Default value is `"https://api.github.com"` **Optional**
 
 e.g.
 
-```ts
+```typescript
 import {ValidateOptions} from 'validate-github-token';
 
 const opts: ValidateOptions = {
@@ -97,10 +99,11 @@ const opts: ValidateOptions = {
 ```
 
 
-### `async function validateGitHubToken()`
+### `async function validateGitHubToken(token, options?)`
 
 A function which validates the given token for the given user. Validation behavior can be configured
 with the 3rd parameter. It returns the information given from API endpoint.
+Validation failure is thrown as `ValidationError`.
 
 #### Parameters
 
@@ -108,6 +111,8 @@ with the 3rd parameter. It returns the information given from API endpoint.
 - `options: Object`: Objects to configure validation behavior **Optional**
 
 #### Return value
+
+- Type: `Promise<Validated>`
 
 Returns a promise which is resolved to `Validated` interface object. Please read following 'interface Validated'
 section for more details.
@@ -118,6 +123,14 @@ section for more details.
 - `Error`: Thrown when unexpected errors such as network error happen
 
 
+### `interface Validated`
+
+A TypeScript interface contains the all information returned from API endpoint.
+
+- `scopes: Array<string>`: An array of scope names added to the API token
+- `rateLimit: RateLimit`: Rate limit information
+
+
 ### `interface RateLimit`
 
 A TypeScript interface contains the rate limit information returned from an API endpoint.
@@ -126,14 +139,6 @@ Please read [GitHub's official rate limit documentation][rate-limit] for more de
 - `limit: number`: Max rate limit count
 - `remaining: number`: Remaining rate limit count
 - `reset: Date`: The date when the rate limit count is reset
-
-
-### `interface Validated`
-
-A TypeScript interface contains the all information returned from API endpoint.
-
-- `scopes: Array<string>`: An array of scope names added to the API token
-- `rateLimit: RateLimit`: Rate limit information
 
 
 
