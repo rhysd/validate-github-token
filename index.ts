@@ -83,7 +83,10 @@ function validateScopes(headers: Headers, validation: ScopeValidation | undefine
     if (header === null) {
         throw new Error(`Response headers don't include X-OAuth-Scopes: ${JSON.stringify(headers.raw())}`);
     }
-    const scopes = header.split(',').map(s => s.trim());
+    const scopes = header
+        .split(',')
+        .map((s) => s.trim())
+        .filter((s) => !!s);
 
     if (validation) {
         if (validation.included) {
@@ -102,7 +105,7 @@ function validateScopes(headers: Headers, validation: ScopeValidation | undefine
         }
         if (validation.exact) {
             const want = validation.exact;
-            if (want.some(s => !scopes.includes(s)) || scopes.some(s => !want.includes(s))) {
+            if (want.some((s) => !scopes.includes(s)) || scopes.some((s) => !want.includes(s))) {
                 const got = JSON.stringify(scopes);
                 const expected = JSON.stringify(want);
                 throw new ValidationError(
