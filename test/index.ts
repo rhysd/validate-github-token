@@ -1,11 +1,11 @@
 import { strict as assert } from 'assert';
 import { validateGitHubToken, ValidateOptions, ValidationError } from '../index';
 
-describe('validateGitHubToken()', function() {
+describe('validateGitHubToken()', function () {
     // Note: This token must have exact 'public_repo' and 'read:user' scopes
     const validToken = process.env.GITHUB_TOKEN ?? '';
 
-    before(function() {
+    before(function () {
         if (validToken === '') {
             throw new Error('$GITHUB_TOKEN environment variable is not set for testing');
         }
@@ -43,7 +43,7 @@ describe('validateGitHubToken()', function() {
     ];
 
     for (const opts of normalCaseOptions) {
-        it(`validates token with correct options '${JSON.stringify(opts)}'`, async function() {
+        it(`validates token with correct options '${JSON.stringify(opts)}'`, async function () {
             const v = await validateGitHubToken(validToken, opts);
             assert.ok(v.rateLimit.remaining <= v.rateLimit.limit, JSON.stringify(v.rateLimit));
             assert.deepEqual(v.scopes, ['public_repo', 'read:user']);
@@ -141,13 +141,14 @@ describe('validateGitHubToken()', function() {
     ];
 
     for (const t of errorCases) {
-        it(`throws an error when ${t.when}`, async function() {
+        it(`throws an error when ${t.when}`, async function () {
             try {
                 await validateGitHubToken(t.token, t.options);
                 assert.ok(
                     false,
-                    `Error did not occur for options: ${JSON.stringify(t.options)} (valid token=${t.token ===
-                        validToken})`,
+                    `Error did not occur for options: ${JSON.stringify(t.options)} (valid token=${
+                        t.token === validToken
+                    })`,
                 );
             } catch (err) {
                 assert.equal(err.name, t.error.name);
@@ -159,7 +160,7 @@ describe('validateGitHubToken()', function() {
 
     const actionToken = process.env.GITHUB_ACITON_TOKEN ?? '';
     if (actionToken !== '') {
-        it('works with GitHub Action access token', async function() {
+        it('works with GitHub Action access token', async function () {
             const v = await validateGitHubToken(actionToken);
             assert.ok(v.rateLimit.remaining <= v.rateLimit.limit, JSON.stringify(v.rateLimit));
             assert.ok(v.scopes.length > 0, JSON.stringify(v.scopes));
