@@ -1,3 +1,11 @@
+<a name="v1.1.1"></a>
+# [v1.1.1](https://github.com/rhysd/validate-github-token/releases/tag/v1.1.1) - 15 Sep 2020
+
+- **Fix:** Empty string is included in `scopes` in the returned value when no scope is set
+
+[Changes][v1.1.1]
+
+
 <a name="v1.1.0"></a>
 # [v1.1.0](https://github.com/rhysd/validate-github-token/releases/tag/v1.1.0) - 29 Jan 2020
 
@@ -25,6 +33,7 @@ Please read [documentation](https://github.com/rhysd/validate-github-token#readm
 [Changes][v1.0.0]
 
 
+[v1.1.1]: https://github.com/rhysd/validate-github-token/compare/v1.1.0...v1.1.1
 [v1.1.0]: https://github.com/rhysd/validate-github-token/compare/v1.0.1...v1.1.0
 [v1.0.1]: https://github.com/rhysd/validate-github-token/compare/v1.0.0...v1.0.1
 [v1.0.0]: https://github.com/rhysd/validate-github-token/tree/v1.0.0
