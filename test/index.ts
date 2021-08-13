@@ -7,7 +7,9 @@ describe('validateGitHubToken()', function () {
 
     before(function () {
         if (validToken === '') {
-            throw new Error('$GITHUB_TOKEN environment variable is not set for testing');
+            throw new Error(
+                "$GITHUB_TOKEN environment variable is not set for testing, where the token must have exact 'public_repo' and 'read:user' scopes",
+            );
         }
     });
 
