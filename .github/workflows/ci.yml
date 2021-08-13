@@ -4,7 +4,7 @@ on: [push, pull_request]
 jobs:
   tests:
     name: Unit test and lint
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -15,3 +15,8 @@ jobs:
           GITHUB_ACTION_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         run: npm test
       - run: npm run lint
+      - name: Check workflow files
+        run: |
+          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint -color
+        shell: bash
