@@ -128,7 +128,7 @@ export async function validateGitHubToken(token: string, opts: ValidateOptions =
             throw new ValidationError(`Unauthorized GitHub API token. Response: '${body}', URL: ${url}`);
         }
         throw new Error(
-            `Unexpected HTTP request failure with repsponse ${res.status} (${res.statusText}) and body '${body}'`,
+            `Unexpected HTTP request failure with response ${res.status} (${res.statusText}) and body '${body}'`,
         );
     }
 
