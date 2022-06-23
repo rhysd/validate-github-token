@@ -33,6 +33,13 @@ export class ValidationError extends Error {
     }
 }
 
+function errorMessage(e: unknown): string {
+    if (e instanceof Error) {
+        return e.message;
+    }
+    return `${e}`;
+}
+
 function endpointUrl(opts: ValidateOptions): string {
     const s = opts.endpointUrl ?? 'https://api.github.com';
     try {
@@ -45,7 +52,7 @@ function endpointUrl(opts: ValidateOptions): string {
         }
         return u.href;
     } catch (err) {
-        throw new Error(`Invalid URL ${s} for API endpoint: ${err.message}`);
+        throw new Error(`Invalid URL ${s} for API endpoint: ${errorMessage(err)}`);
     }
 }
 

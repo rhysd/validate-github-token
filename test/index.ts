@@ -153,6 +153,7 @@ describe('validateGitHubToken()', function () {
                     })`,
                 );
             } catch (err) {
+                assert.ok(err instanceof Error);
                 assert.equal(err.name, t.error.name);
                 assert.ok(err instanceof t.error, err);
                 assert.ok(t.message.test(err.message), `Error message '${err.message}' did not match to ${t.message}`);
